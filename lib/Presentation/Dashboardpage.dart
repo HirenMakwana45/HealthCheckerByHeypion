@@ -27,6 +27,8 @@ class _DashboardPageState extends State<DashboardPage> {
   _discoverServices(BluetoothDevice device) async {
     List<BluetoothService> services = await device.discoverServices();
     for (BluetoothService service in services) {
+      print("Service UUID: ${service.uuid}");
+
       var characteristics = service.characteristics;
       for (BluetoothCharacteristic c in characteristics) {
         if (c.uuid.toString() == "YOUR_CHARACTERISTIC_UUID") {
@@ -43,17 +45,17 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
-  _startScan() {
-    setState(() {
-      print("hey");
-      isScanning = true;
-    });
-    flutterBlue.startScan(timeout: Duration(seconds: 5)).then((_) {
-      setState(() {
-        isScanning = false;
-      });
-    });
-  }
+  // _startScan() {
+  //   setState(() {
+  //     print("hey");
+  //     isScanning = true;
+  //   });
+  //   flutterBlue.startScan(timeout: Duration(seconds: 5)).then((_) {
+  //     setState(() {
+  //       isScanning = false;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +64,7 @@ class _DashboardPageState extends State<DashboardPage> {
         title: Text("Let's Check Your Health !"),
       ),
       body: isScanning
-          ? Center(
+          ? const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -92,6 +94,13 @@ class _DashboardPageState extends State<DashboardPage> {
                     return ListTile(
                       title: Text(devices[index].name),
                       onTap: () async {
+                        await devices[index].connect().then((_) {
+                          devices[index].state.listen((state) {
+                            if (state == BluetoothDeviceState.connected) {
+                              _discoverServices(devices[index]);
+                            }
+                          });
+                        });
                         devices[index].connect();
                         _discoverServices(devices[index]);
                       },
@@ -109,7 +118,6 @@ class _DashboardPageState extends State<DashboardPage> {
                 isScanning = false;
               });
             });
-            _startScan;
           });
         },
         child: Icon(Icons.search),

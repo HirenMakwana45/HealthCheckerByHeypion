@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "185939681304",
+    "project_id": "healthchecker-4d7f9",
+    "storage_bucket": "healthchecker-4d7f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185939681304:android:207fc2b999e118eee7236d",
+        "android_client_info": {
+          "package_name": "com.example.healthcheckerbyheypion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnIwjMxntu6CUfUmRa7V8Rjzjywsvlozk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
